@@ -5,6 +5,7 @@ Based on a predefined templating structure create new files
 ## Structure
 
 templates -> collections of templates, if you have directories in there they will be reproduced
+
 rendered -> output files will show up here
 
 ## TODO
