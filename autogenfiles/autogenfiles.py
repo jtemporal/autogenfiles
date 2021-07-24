@@ -23,7 +23,7 @@ def variables_to_substitute(variable_list):
 @click.option('-o', '--output-path', default='./',
               help='Output path, by default writes to root')
 def main(variable_list, output_path):
-
+    print(f'Output path: {output_path}')
     # read variables to substitute
     if not Path(variable_list).is_file():
         print(f'Oh no! No file named {variable_list} found!')
