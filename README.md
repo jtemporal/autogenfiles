@@ -12,10 +12,10 @@ rendered -> output files will show up here
 
 There are a few TODO marked on the code but here's a list of most general ones
 
-- [ ] guarantee file structure from templates folder
+- [x] guarantee file structure from templates folder
 - [ ] test all
 - [ ] make it into an installable cli
 - [ ] document the variables.yaml structure
 - [ ] document how to contribute
 - [ ] document example with the project in case
-- [ ] move all logic into an module structure
+- [x] move all logic into an module structure
