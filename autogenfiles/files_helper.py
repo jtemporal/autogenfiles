@@ -1,9 +1,8 @@
 import glob
+import click
 
 from pathlib import Path
 from os import walk
-
-import click
 
 from jinja2 import Template
 
@@ -19,23 +18,29 @@ def preparing_path_dir(dir_name):
 
 
 def files(variables, output_path):
+    # avoids problem with concats without tralling slash
     if not output_path.endswith('/'):
         output_path = output_path + '/'
 
+    # makes sure output dir exists to avoid FileNotFound error
     preparing_path_dir(output_path)
 
+    # list files in templates
     walked = list(walk('templates/'))
-    files = walked[0][2]
-    subfolders = walked[0][1]
+    files = walked[0][2]  # files inside templates/ and outside of subfolders
+    subfolders = walked[0][1]  # always a list of subfolders
 
+    # if templates has subfolder structure this list all templates in subfold
     if walked.__len__() > 1:
         files = glob.glob('templates/*/*')
 
+    # creates subfolders inside output path
     if subfolders:
         for subf in subfolders:
             preparing_path_dir(f'{output_path}{subf}')
 
     for f in files:
+        # makes sure I have correct file names for subfolder structure
         if walked.__len__() == 1:
             file_name = f
             f = f'templates/{f}'
