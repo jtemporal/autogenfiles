@@ -1,3 +1,7 @@
+"""
+The core module of AutoGenFiles project
+"""
+
 from pathlib import Path
 
 import click
@@ -12,9 +16,9 @@ from .files_helper import prepare_output_path_dir, read_template
 def run(variables: dict, output_path: str):
     """Runs the logic for generating rendered templates outcome
 
-    Args:
-        dir_name: str, Required
-        Name of output directory
+    Params:
+        :dir_name: str, Required
+            Name of output directory
     """
     # avoids problem with concats without trailling slash
     output_path = guarantee_trailing_slash(output_path)
@@ -56,6 +60,7 @@ def run(variables: dict, output_path: str):
 @click.option('-o', '--output-path', default='./',
               help='Output path, by default writes to root')
 def AutoGenFiles(variable_list, output_path):
+    """CLI"""
     print(f'Output path: {output_path}')
     # read variables to substitute
     if not Path(variable_list).is_file():

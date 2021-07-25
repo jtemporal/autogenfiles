@@ -1,7 +1,17 @@
+"""
+The module that reads the variables file and return the variables
+"""
+
 from configparser import ConfigParser
 
 
-def variables_to_substitute(variable_list):
+def variables_to_substitute(variable_list: str):
+    """Reads variable file
+
+    Params:
+        :variable_list: str, Required
+            The variable file to be read and interpreted
+    """
     parser = ConfigParser()
     parser.read(variable_list)
     try:
