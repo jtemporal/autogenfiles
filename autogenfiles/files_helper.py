@@ -1,62 +1,65 @@
 import glob
-import click
 
 from pathlib import Path
 from os import walk
 
-from jinja2 import Template
 
+def read_template(file_name: str) -> str:
+    """Reads a template file and returns its content
 
-def read_template(file_name):
+    Args:
+        file_name: str, Required
+        Template file name
+
+    Returns:
+        Template file contents
+    """
     return Path(file_name).read_text()
 
 
-def preparing_path_dir(dir_name):
+def prepare_output_path_dir(dir_name: str):
+    """Creates missing directories for output files
+
+    Args:
+        dir_name: str, Required
+        Name of output directory
+    """
     if not Path(dir_name).is_dir():
         print(f'Creating dir named: {dir_name}')
         Path(dir_name).mkdir()
 
 
-def files(variables, output_path):
-    # avoids problem with concats without tralling slash
-    if not output_path.endswith('/'):
-        output_path = output_path + '/'
+def guarantee_trailing_slash(directory_name: str) -> str:
+    """
+    """
+    if not directory_name.endswith('/'):
+        return directory_name + '/'
+    return directory_name
 
-    # makes sure output dir exists to avoid FileNotFound error
-    preparing_path_dir(output_path)
 
+def prepapre_files_and_subfolders(templates_dir: str = 'templates/'):
     # list files in templates
-    walked = list(walk('templates/'))
+    walked = list(walk(templates_dir))
     files = walked[0][2]  # files inside templates/ and outside of subfolders
     subfolders = walked[0][1]  # always a list of subfolders
+    templates_dir_quantity = walked.__len__()
 
     # if templates has subfolder structure this list all templates in subfold
-    if walked.__len__() > 1:
-        files = glob.glob('templates/*/*')
+    if templates_dir_quantity > 1:
+        files = glob.glob(templates_dir + '*/*')
 
-    # creates subfolders inside output path
-    if subfolders:
-        for subf in subfolders:
-            preparing_path_dir(f'{output_path}{subf}')
+    return files, subfolders, templates_dir_quantity
 
-    for f in files:
-        # makes sure I have correct file names for subfolder structure
-        if walked.__len__() == 1:
-            file_name = f
-            f = f'templates/{f}'
-        else:
-            file_name = f.split('templates/')[1]
-        template = read_template(f)
 
-        # create templates
-        file_template = Template(template)
-        file_name_template = Template(file_name)
+def create_subfolder_structure(subfolders, output_path):
+    """Creates subfolders inside output path
 
-        # rendering templates
-        output_file_name = file_name_template.render(variables)
-        output_file = file_template.render(variables)
+    Args:
+        subfolders: list(str), Required
+        A list of string cotaining templates/ subfolders names
 
-        # writing outputs
-        with open(f'{output_path}/{output_file_name}', 'w') as f:
-            click.echo(f'Writting file: {output_file_name}')
-            f.write(output_file)
+        output_path: str, Required
+        Output directory to write rendered templates
+    """
+    for subf in subfolders:
+        prepare_output_path_dir(f'{output_path}{subf}')
