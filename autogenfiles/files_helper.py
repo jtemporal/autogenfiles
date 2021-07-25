@@ -30,14 +30,14 @@ def prepare_output_path_dir(dir_name: str):
 
 
 def guarantee_trailing_slash(directory_name: str) -> str:
-    """
+    """Adds a trailling / when missing
     """
     if not directory_name.endswith('/'):
         return directory_name + '/'
     return directory_name
 
 
-def prepapre_files_and_subfolders(templates_dir: str = 'templates/'):
+def prepare_files_and_subfolders(templates_dir: str = 'templates/'):
     # list files in templates
     walked = list(walk(templates_dir))
     files = walked[0][2]  # files inside templates/ and outside of subfolders
