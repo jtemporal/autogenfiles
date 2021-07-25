@@ -5,24 +5,24 @@ from jinja2 import Template
 
 from .configuration import variables_to_substitute
 from .files_helper import guarantee_trailing_slash, create_subfolder_structure
-from .files_helper import prepapre_files_and_subfolders
+from .files_helper import prepare_files_and_subfolders
 from .files_helper import prepare_output_path_dir, read_template
 
 
 def run(variables: dict, output_path: str):
-    """Runs the logic for the rendered templates generation
+    """Runs the logic for generating rendered templates outcome
 
     Args:
         dir_name: str, Required
         Name of output directory
     """
-    # avoids problem with concats without tralling slash
+    # avoids problem with concats without trailling slash
     output_path = guarantee_trailing_slash(output_path)
 
     # makes sure output dir exists to avoid FileNotFound error
     prepare_output_path_dir(output_path)
 
-    file_list, subfolders, dir_size = prepapre_files_and_subfolders()
+    file_list, subfolders, dir_size = prepare_files_and_subfolders()
 
     if subfolders:
         create_subfolder_structure(subfolders, output_path)
@@ -52,7 +52,7 @@ def run(variables: dict, output_path: str):
 
 @click.command()
 @click.option('-v', '--variable-list', default='variables.yaml',
-              help='Name of the yaml files containing varibales')
+              help='Name of the yaml files containing variables')
 @click.option('-o', '--output-path', default='./',
               help='Output path, by default writes to root')
 def AutoGenFiles(variable_list, output_path):
