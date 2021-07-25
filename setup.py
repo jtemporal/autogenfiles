@@ -23,10 +23,10 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'autogenfiles = autogenfiles.autogenfiles:main',
+            'autogenfiles = autogenfiles.autogenfiles:AutoGenFiles',
         ],
     },
     url=REPO_URL,
     python_requires='>=3.8.2',
-    version='0.0.1',
+    version='0.0.2',
 )
