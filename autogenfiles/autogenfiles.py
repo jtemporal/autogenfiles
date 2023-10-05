@@ -13,11 +13,15 @@ from .files_helper import prepare_files_and_subfolders
 from .files_helper import prepare_output_path_dir, read_template
 
 
-def run(variables: dict, output_path: str):
+def run(templates_path: str, variables: dict, output_path: str):
     """Runs the logic for generating rendered templates outcome
 
     Params:
-        :dir_name: str, Required
+        :templates_path: str, Optional
+            Path to the templates directory
+        :variables: str, Optional
+            Dictionary with all the variables to be injected on the templates
+        :output_path: str, Required
             Name of output directory
     """
     # avoids problem with concats without trailling slash
@@ -26,7 +30,7 @@ def run(variables: dict, output_path: str):
     # makes sure output dir exists to avoid FileNotFound error
     prepare_output_path_dir(output_path)
 
-    file_list, subfolders, dir_size = prepare_files_and_subfolders()
+    file_list, subfolders, dir_size = prepare_files_and_subfolders(templates_path)
 
     if subfolders:
         create_subfolder_structure(subfolders, output_path)
@@ -35,9 +39,9 @@ def run(variables: dict, output_path: str):
         # makes sure I have correct file names for subfolder structure
         if dir_size == 1:
             file_name = f
-            f = f'templates/{f}'
+            f = f'{templates_path}/{f}'
         else:
-            file_name = f.split('templates/')[1]
+            file_name = f.split(f'{templates_path}')[1]
         template = read_template(f)
 
         # create templates
@@ -55,11 +59,13 @@ def run(variables: dict, output_path: str):
 
 
 @click.command()
+@click.option('-t', '--templates-path', default='templates/',
+              help='A custom templates path. Default is `./templates`')
 @click.option('-v', '--variable-list', default='variables.yaml',
               help='Name of the yaml files containing variables')
 @click.option('-o', '--output-path', default='./',
               help='Output path, by default writes to root')
-def AutoGenFiles(variable_list, output_path):
+def AutoGenFiles(templates_path, variable_list, output_path):
     """CLI"""
     print(f'Output path: {output_path}')
     # read variables to substitute
@@ -72,5 +78,5 @@ def AutoGenFiles(variable_list, output_path):
         return
     click.echo(f'Variables found: {list(variables.keys())}')
 
-    run(variables, output_path)
+    run(templates_path, variables, output_path)
     click.echo('Output fully written')

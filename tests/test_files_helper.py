@@ -40,7 +40,7 @@ def test_guarantee_trailing_slash_adds_slash_when_no_slash_present():
 
 
 def test_prepapre_files_and_subfolders():
-    result = prepapre_files_and_subfolders('tests/fixtures/templates')
+    result = prepare_files_and_subfolders('tests/fixtures/templates')
     res_files, res_subf, res_template_qtd = result
     assert res_files == ['{{ project_name }}.md']
     assert res_subf == []

@@ -3,4 +3,4 @@ build==0.5.1
 ipython==7.31.1
 pycodestyle==2.7.0
 pytest==6.2.4
-Sphinx==4.1.1
+Sphinx==7.2.6

@@ -55,7 +55,7 @@ And add the following content:
     project_number = 42
     project_description = Generate files from templates
 
-Now run autogenfiles:
+AutoGenFiles needs a variables section to work. Now run autogenfiles:
 
 .. code-block:: console
 
